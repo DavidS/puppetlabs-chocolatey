@@ -9,8 +9,8 @@ Puppet::Type.type(:package).provide(:chocolatey, :parent => Puppet::Provider::Pa
   confine    :operatingsystem => :windows
 
   has_feature :installable, :uninstallable, :upgradeable, :versionable, :install_options
-  chocopath = ENV['ChocolateyInstall'].to_s
-  commands :chocolatey => chocopath + "/chocolateyInstall/chocolatey.cmd"
+  chocopath = ENV['ChocolateyInstall'] || File.join("C:", "Chocolatey")
+  commands :chocolatey => File.join(chocopath, "chocolateyInstall", "chocolatey.cmd")
 
   def install
     should = @resource.should(:ensure)
