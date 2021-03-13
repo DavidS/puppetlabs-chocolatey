@@ -9,7 +9,7 @@ describe 'Chocolatey Install Location' do
   context 'using normal install path' do
     context 'on Windows' do
       before :each do
-        skip 'Not on Windows platform' unless Puppet::Util::Platform.windows?
+        allow(Puppet::Util::Platform).to receive(:windows?).and_return(true)
       end
 
       it 'returns install path from registry if it exists' do
@@ -38,7 +38,7 @@ describe 'Chocolatey Install Location' do
 
     context 'on Linux' do
       before :each do
-        skip 'Not on Linux platform' unless Puppet.features.posix?
+        allow(Puppet::Util::Platform).to receive(:windows?).and_return(false)
       end
 
       it 'returns the environment variable ChocolateyInstall if it exists' do
@@ -63,7 +63,7 @@ describe 'Chocolatey Install Location' do
 
   context 'using temp directory' do
     before :each do
-      skip 'Not on Windows platform' unless Puppet::Util::Platform.windows?
+      allow(Puppet::Util::Platform).to receive(:windows?).and_return(true)
     end
 
     it 'returns the TEMP path from registry if it exists' do
